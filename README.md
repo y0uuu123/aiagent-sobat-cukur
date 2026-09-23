@@ -1,48 +1,47 @@
-<img width="670" height="303" alt="image" src="https://github.com/user-attachments/assets/4c3a7411-bb12-4162-8e08-db2d4de0a528" />
+<img width="670" height="303" alt="SobatCukur" src="https://github.com/user-attachments/assets/4c3a7411-bb12-4162-8e08-db2d4de0a528" />
 
-
-# 💈 sobatCukur — AI Agent Barbershop WhatsApp
+# sobatCukur — AI Agent Barbershop WhatsApp
 
 > **SobatCukur** adalah AI Agent layanan barbershop berbasis WhatsApp yang membantu customer mendapatkan informasi barber dan layanan, mengecek ketersediaan slot, melakukan booking, serta mendukung proses pembayaran dan approval melalui otomasi **n8n + GoWA + NocoDB + PostgreSQL**.
 
 ---
 
-## 📌 Tentang Project
+## Tentang Project
 
-SobatCukur dirancang sebagai asisten WhatsApp untuk operasional barbershop.
+SobatCukur dirancang sebagai asisten WhatsApp untuk membantu operasional barbershop.
 
 Agent menangani dua kelompok pengguna:
 
 | Pengguna | Fungsi |
 |---|---|
-| 👤 **Customer** | Informasi barber, layanan, harga, ketersediaan slot, booking, dan pembayaran |
-| 💈 **Barber / Admin** | Melihat booking dan jadwal serta mengelola layanan, harga, paket, dan approval |
+| **Customer** | Informasi barber, layanan, harga, ketersediaan slot, booking, dan pembayaran |
+| **Barber / Admin** | Melihat booking dan jadwal serta mengelola layanan, harga, paket, dan approval |
 
 > **Catatan:** Admin internal saat ini menggunakan nomor `082192791079` dengan format internal `6282192791079`. Nomor tersebut diperlakukan sebagai admin/barber, bukan customer.
 
 ---
 
-# ✨ Fitur Utama
+## Fitur Utama
 
-- 💈 Menampilkan daftar barber aktif
-- 💇 Menampilkan layanan, harga, durasi, dan spesialisasi
-- 🕐 Mengecek slot yang benar-benar tersedia
-- 📅 Membuat booking berdasarkan barber, tanggal, dan slot
-- 📝 Menyimpan catatan booking
-- 💰 Mengelola harga layanan oleh admin
-- 📦 Menambahkan paket layanan oleh admin
-- 📋 Melihat booking dan jadwal operasional
-- 🧾 Menerima bukti pembayaran dalam bentuk teks maupun media
-- ✅ Melakukan approval pembayaran/booking oleh admin
-- 🔔 Mengirim notifikasi kepada pihak terkait melalui WhatsApp
+- Menampilkan daftar barber aktif
+- Menampilkan layanan, harga, durasi, dan spesialisasi
+- Mengecek slot yang benar-benar tersedia
+- Membuat booking berdasarkan barber, tanggal, dan slot
+- Menyimpan catatan booking
+- Mengelola harga layanan oleh admin
+- Menambahkan paket layanan oleh admin
+- Melihat booking dan jadwal operasional
+- Menerima bukti pembayaran dalam bentuk teks maupun media
+- Melakukan approval pembayaran/booking oleh admin
+- Mengirim notifikasi kepada pihak terkait melalui WhatsApp
 
 ---
 
-# 🏗️ Arsitektur Sistem
+## Arsitektur Sistem
 
 ```mermaid
 flowchart LR
-    WA[📱 WhatsApp] --> GOWA[GoWA]
+    WA[WhatsApp] --> GOWA[GoWA]
     GOWA --> N8N[n8n]
 
     N8N --> NORMALIZE[Normalize Sender]
@@ -51,14 +50,14 @@ flowchart LR
     PROOF -->|Ya| SUBMIT[Simpan Payment Submitted]
     SUBMIT --> NOTIFY[Notify Admin / Barber]
 
-    PROOF -->|Tidak| AGENT[🤖 SobatCukur AI Agent]
+    PROOF -->|Tidak| AGENT[SobatCukur AI Agent]
 
     AGENT --> BARBERS[(NocoDB<br/>Barbers)]
     AGENT --> SERVICES[(NocoDB<br/>Services)]
     AGENT --> BOOKINGS[(NocoDB<br/>Bookings)]
 
-    CUSTOMER[👤 Customer] --> AGENT
-    ADMIN[💈 Admin / Barber] --> AGENT
+    CUSTOMER[Customer] --> AGENT
+    ADMIN[Admin / Barber] --> AGENT
 
     ADMIN --> PRICE[Update Service Price]
     ADMIN --> PACKAGE[Add Service Package]
@@ -71,20 +70,20 @@ flowchart LR
     AGENT --> GOWA
 ```
 
-### Komponen
+### Komponen Sistem
 
 | Komponen | Peran |
 |---|---|
 | **WhatsApp** | Media komunikasi customer dan barber |
-| **GoWA** | Gateway WhatsApp dan komunikasi pesan |
+| **GoWA** | Gateway WhatsApp untuk komunikasi pesan |
 | **n8n** | Orkestrasi workflow dan AI Agent |
 | **NocoDB** | Pengelolaan data operasional |
-| **PostgreSQL** | Database untuk NocoDB |
+| **PostgreSQL** | Database backend untuk NocoDB |
 | **AI Agent** | Memahami permintaan pengguna dan memilih tool yang sesuai |
 
 ---
 
-# 🔄 Alur Customer
+## Alur Customer
 
 ```text
 Customer
@@ -118,11 +117,11 @@ WhatsApp Customer
 8. Booking hanya dibuat setelah customer memberikan **konfirmasi eksplisit**.
 9. Booking dibuat dengan status yang sesuai dan customer diarahkan ke alur pembayaran.
 
-> ⚠️ **Jam kerja barber tidak otomatis berarti slot tersedia.** Ketersediaan harus diperiksa menggunakan workflow/tool `Check Available Slots`.
+> **Catatan:** Jam kerja barber tidak otomatis berarti slot tersedia. Ketersediaan harus diperiksa menggunakan workflow/tool `Check Available Slots`.
 
 ---
 
-# 💈 Alur Admin / Barber
+## Alur Admin / Barber
 
 Admin atau barber dapat melakukan operasi seperti:
 
@@ -135,7 +134,7 @@ cek jadwal barber
 approve booking #ID
 ```
 
-### Hak akses
+### Hak Akses
 
 Customer tidak diberikan akses untuk:
 
@@ -149,7 +148,7 @@ Operasi admin menggunakan ID booking yang jelas untuk mengurangi risiko salah ta
 
 ---
 
-# 💳 Status Booking & Pembayaran
+## Status Booking & Pembayaran
 
 Alur pembayaran utama:
 
@@ -167,7 +166,7 @@ Setelah bukti diterima, workflow dapat menyimpan status `payment_submitted` dan 
 
 ---
 
-# 🤖 Komponen AI & Workflow
+## Komponen AI & Workflow
 
 Workflow utama dan sub-workflow yang digunakan dalam project:
 
@@ -184,11 +183,11 @@ Workflow utama dan sub-workflow yang digunakan dalam project:
 
 ---
 
-# 🗄️ Database
+## Database
 
 SobatCukur menggunakan **NocoDB** sebagai database interface dengan **PostgreSQL** sebagai database backend.
 
-### Data utama
+### Data Utama
 
 ```text
 Barber
@@ -204,7 +203,7 @@ Relasi data digunakan untuk menghubungkan customer, barber, layanan, booking, da
 
 ---
 
-# 🔌 Integrasi
+## Integrasi
 
 | Service | Keterangan |
 |---|---|
@@ -213,7 +212,7 @@ Relasi data digunakan untuk menghubungkan customer, barber, layanan, booking, da
 | **NocoDB** | Database Management |
 | **PostgreSQL** | Database Backend |
 
-Endpoint yang digunakan pada environment project:
+### Endpoint Environment
 
 ```text
 n8n    → https://n8n.saidhr.my.id
@@ -221,13 +220,13 @@ GoWA   → https://wa.saidhr.my.id
 NocoDB → https://noco.saidhr.my.id
 ```
 
-> Endpoint di atas merupakan konfigurasi environment project. Untuk deployment lain, sesuaikan dengan domain/host masing-masing.
+> Endpoint di atas merupakan konfigurasi environment project. Untuk deployment lain, sesuaikan dengan domain atau host masing-masing.
 
 ---
 
-# ⚙️ Setup & Deployment
+## Setup & Deployment
 
-## 1. Persiapkan n8n
+### 1. Persiapkan n8n
 
 SobatCukur dijalankan menggunakan n8n dan dapat dideploy menggunakan Docker.
 
@@ -240,15 +239,15 @@ n8n
 → pilih file workflow .json
 ```
 
-## 2. Persiapkan NocoDB
+### 2. Persiapkan NocoDB
 
 Pastikan NocoDB dapat diakses oleh n8n dan database PostgreSQL berjalan dengan baik.
 
-## 3. Persiapkan GoWA
+### 3. Persiapkan GoWA
 
 GoWA digunakan sebagai gateway WhatsApp untuk menerima dan mengirim pesan.
 
-## 4. Hubungkan Credential
+### 4. Hubungkan Credential
 
 Credential yang diperlukan harus dibuat atau dihubungkan kembali pada environment tujuan.
 
@@ -256,7 +255,7 @@ Credential yang diperlukan harus dibuat atau dihubungkan kembali pada environmen
 
 ---
 
-# 🧪 Verifikasi
+## Verifikasi
 
 Sebelum workflow digunakan, lakukan pengujian:
 
@@ -275,7 +274,7 @@ Sebelum workflow digunakan, lakukan pengujian:
 
 ---
 
-# 🔐 Keamanan
+## Keamanan
 
 Jangan pernah memasukkan credential atau data produksi ke repository publik.
 
@@ -297,7 +296,7 @@ Export workflow publik harus menggunakan versi yang sudah disanitasi.
 
 ---
 
-# 📁 Struktur Repository
+## Struktur Repository
 
 Struktur repository yang disarankan:
 
@@ -328,7 +327,7 @@ sobat-cukur-ai-agent/
 
 ---
 
-# 📌 Batasan & Catatan
+## Batasan & Catatan
 
 - Agent bergantung pada model AI dan workflow/tool yang terhubung.
 - Credential harus dibuat ulang atau dihubungkan kembali ketika project dipindahkan ke instance n8n lain.
@@ -338,18 +337,7 @@ sobat-cukur-ai-agent/
 
 ---
 
-# 👥 Project Team
-
-| Role | Responsibility |
-|---|---|
-| AI Agent | Conversation, intent handling, dan tool calling |
-| Automation | n8n workflow & integration |
-| Database | NocoDB & PostgreSQL |
-| WhatsApp Integration | GoWA |
-
----
-
-## 🚀 Project Status
+## Project Status
 
 - [x] Customer Service Agent
 - [x] Barber / Admin Agent
@@ -365,6 +353,17 @@ sobat-cukur-ai-agent/
 
 ---
 
-### sobatCukur
+## Project Team
+
+| Role | Responsibility |
+|---|---|
+| **AI Agent** | Conversation, intent handling, dan tool calling |
+| **Automation** | n8n workflow & integration |
+| **Database** | NocoDB & PostgreSQL |
+| **WhatsApp Integration** | GoWA |
+
+---
+
+## sobatCukur
 
 **AI-powered WhatsApp assistant for barbershop operations.**
