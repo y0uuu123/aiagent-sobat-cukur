@@ -1,3 +1,5 @@
+![Uploading image.png…]()
+
 # 💈 sobatCukur — AI Agent Barbershop WhatsApp
 
 > **SobatCukur** adalah AI Agent layanan barbershop berbasis WhatsApp yang membantu customer mendapatkan informasi barber dan layanan, mengecek ketersediaan slot, melakukan booking, serta mendukung proses pembayaran dan approval melalui otomasi **n8n + GoWA + NocoDB + PostgreSQL**.
