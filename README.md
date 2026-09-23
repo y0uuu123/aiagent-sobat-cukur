@@ -1,4 +1,5 @@
-![Uploading image.png…]()
+<img width="670" height="303" alt="image" src="https://github.com/user-attachments/assets/4c3a7411-bb12-4162-8e08-db2d4de0a528" />
+
 
 # 💈 sobatCukur — AI Agent Barbershop WhatsApp
 
